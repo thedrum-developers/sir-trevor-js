@@ -16,13 +16,21 @@ const Events = require("./packages/events");
 const TOP_CONTROLS_TEMPLATE = require("./templates/top-controls");
 
 module.exports.create = function(SirTrevor) {
-
   function createBlock(e) {
-    // REFACTOR: mediator so that we can trigger events directly on instance?
-    // REFACTOR: block create event expects data as second argument.
-    /*jshint validthis:true */
+
+    let defaultBlockType;
+
+    if(SirTrevor.options.defaultType) {
+      defaultBlockType = SirTrevor.options.defaultType;
+    } else {
+      defaultBlockType = SirTrevor.options.blockTypes.pop();
+    }
+
+      // REFACTOR: mediator so that we can trigger events directly on instance?
+      // REFACTOR: block create event expects data as second argument.
+      /*jshint validthis:true */
     SirTrevor.mediator.trigger(
-      "block:create", 'Text', null, this.parentNode.parentNode.id ? this.parentNode.parentNode : this.parentNode
+      "block:create", SirTrevor.options.defaultType, null, this.parentNode.parentNode.id ? this.parentNode.parentNode : this.parentNode
     );
   }
 
